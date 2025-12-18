@@ -1,0 +1,99 @@
+﻿{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "windows-base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/install/${presetName}",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "cl.exe",
+        "CMAKE_CXX_COMPILER": "cl.exe"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "x64-debug",
+      "displayName": "1. Debug",
+      "inherits": "windows-base",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_PERSISTENCE": false,
+        "BNSKR": false
+      }
+    },
+    {
+      "name": "x64-debug-with-persistence",
+      "displayName": "2. Debug Persistent",
+      "inherits": "x64-debug",
+      "cacheVariables": {
+        "ENABLE_PERSISTENCE": true
+      }
+    },
+    {
+      "name": "x64-debug-kr",
+      "displayName": "3. Debug KR",
+      "inherits": "windows-base",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_PERSISTENCE": false,
+        "BNSKR": true
+      }
+    },
+    {
+      "name": "x64-debug-kr-with-persistence",
+      "displayName": "4. Debug KR Persistent",
+      "inherits": "x64-debug-kr",
+      "cacheVariables": {
+        "ENABLE_PERSISTENCE": true
+      }
+    },
+    {
+      "name": "x64-release",
+      "displayName": "5. Release",
+      "inherits": "x64-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "ENABLE_PERSISTENCE": false
+      }
+    },
+    {
+      "name": "x64-release-with-persistence",
+      "displayName": "6. Release Persistent",
+      "inherits": "x64-release",
+      "cacheVariables": {
+        "ENABLE_PERSISTENCE": true
+      }
+    },
+    {
+      "name": "x64-release-kr",
+      "displayName": "7. Release KR",
+      "inherits": "x64-debug-kr",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "ENABLE_PERSISTENCE": false
+      }
+    },
+    {
+      "name": "x64-release-kr-with-persistence",
+      "displayName": "8. Release KR Persistent",
+      "inherits": "x64-release-kr",
+      "cacheVariables": {
+        "ENABLE_PERSISTENCE": true
+      }
+    }
+  ]
+}

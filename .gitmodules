@@ -1,0 +1,7 @@
+[submodule "external/PluginSdk"]
+	path = external/PluginSdk
+	url = https://github.com/leanleon93/BnsPlugin_DatafilePluginloader
+	branch = minimal-sdk-headers
+[submodule "external/BnsPluginTables"]
+	path = external/BnsPluginTables
+	url = https://github.com/leanleon93/BnsPluginTables

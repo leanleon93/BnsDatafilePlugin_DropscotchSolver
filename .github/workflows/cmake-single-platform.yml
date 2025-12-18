@@ -1,0 +1,33 @@
+name: Build All
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        build_type: [Debug, Release]
+        enable_persistence: [ON, OFF]
+        bnskr: [ON, OFF]
+        
+    name: "Build ${{ matrix.build_type }} | Persistence: ${{ matrix.enable_persistence }} | BNSKR: ${{ matrix.bnskr }}"
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive # Ensure submodules are fetched
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Configure CMake
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DENABLE_PERSISTENCE=${{ matrix.enable_persistence }} -DBNSKR=${{ matrix.bnskr }}
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build
+
