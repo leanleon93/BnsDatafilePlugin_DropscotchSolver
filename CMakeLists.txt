@@ -5,7 +5,7 @@ if(NOT WIN32)
 endif()
 
 # SET YOUR PLUGIN NAME AND VERSION HERE
-set(PLUGIN_NAME "Template")
+set(PLUGIN_NAME "DropscotchSolver")
 project ("BnsDatafilePlugin" VERSION 1.0.0)
 option(ENABLE_PERSISTENCE "Enable persistence for the plugin configuration" OFF)
 option(BNSKR, "Build for BNSKR version" OFF)

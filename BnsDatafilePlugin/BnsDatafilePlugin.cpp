@@ -6,6 +6,10 @@
 #include <imgui_plugin_api.h>
 #include <pluginversion.h>
 #include "pluginhelpers.h"
+#include <EU/skillshow3/AAA_skillshow3_RecordBase.h>
+#include <KR/skillshow3/AAA_skillshow3_RecordBase.h>
+#include <algorithm>
+#include <vector>
 
 /**
  * @file BnsDatafilePlugin.cpp
@@ -18,32 +22,35 @@
 
 using namespace PluginGlobalState;
 
+//dropscotch correct plate ids
+static const std::vector<int> skillShow3Ids = {
+	5924645,5924646,5924647,5924648,5924649,5924650,5924651,5924652,5924653,5924654,5924655,5924656,5924657,5924658
+};
 
-
-/**
- * @brief Example detour function for the "item" table.
- *
- * This function demonstrates how to intercept lookups for items in the datafile.
- * Plugin authors can modify or redirect lookups as needed.
- *
- * @param params Parameters for the plugin execution, including the table and key.
- * @return PluginReturnData Optionally returns a replacement element. Only return if you absolutely have to. Prefer modifying the element in place.
- */
-static PluginReturnData __fastcall DatafileItemDetour(PluginExecuteParams* params) {
+static PluginReturnData __fastcall Skillshow3Detour(PluginExecuteParams* params) {
 	PLUGIN_DETOUR_GUARD_REGION(params);
 
-	if (!g_pluginConfig.configData.enabled || !g_isReady.load(std::memory_order_acquire)) {
+	if (!g_pluginConfig.configData.enabled || !g_isReady.load(std::memory_order_acquire) || params->key == 0) {
 		return {};
 	}
-	unsigned __int64 key = params->key;
+#ifdef BNSKR
+	BnsTables::KR::skillshow3_Record::Key key = {};
+#else
+	BnsTables::EU::skillshow3_Record::Key key = {};
+#endif
+	key.key = params->key;
+	auto skillId = key.id;
 
-	// Example to replace one item with another when the game looks it up
-
-	//if (key == 4295877296) {
-	//	BnsTables::Shared::DrEl* result = params->oFind(params->table, 4295917336);
-	//	//params->displaySystemChatMessage(L"ExampleItemPlugin: Redirected item key 4295902840 to 4294967396", false);
-	//	return { result };
-	//}
+	//show bard shield on the correct glass panels
+	if (std::find(skillShow3Ids.begin(), skillShow3Ids.end(), skillId) != skillShow3Ids.end()) {
+		key.id = 241040;
+		key.variation_id = 1;
+		key.skillskin_id = 0;
+		auto record = params->oFind(params->table, key.key);
+		if (record != nullptr) {
+			return { record };
+		}
+	}
 
 	return {};
 }
@@ -101,7 +108,7 @@ static void __fastcall Unregister() {
 
 /// @brief Table handler array mapping table names to detour functions.
 PluginTableHandler handlers[] = {
-	{ L"item", &DatafileItemDetour }
+	{ L"skillshow3", &Skillshow3Detour }
 };
 
 // Plugin metadata and registration macros

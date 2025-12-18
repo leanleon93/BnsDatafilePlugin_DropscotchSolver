@@ -26,9 +26,4 @@ void ConfigUiPanel(void* userData) {
 	if (imgui->Checkbox((std::string("Enable ") + PLUGIN_NAME).c_str(), &g_pluginConfig.configData.enabled)) {
 		g_pluginConfig.Save();
 	}
-	imgui->Separator();
-	imgui->Text("This is a template plugin.");
-	imgui->Text("You can use this panel to configure your plugin.");
-	imgui->Separator();
-	imgui->Text("This plugin does not do anything yet.");
 }
