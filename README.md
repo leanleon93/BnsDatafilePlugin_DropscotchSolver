@@ -26,6 +26,8 @@ A plugin to show correct pannels in dropscotch event.
 
 - [DatafilePluginloader](https://github.com/leanleon93/BnsPlugin_DatafilePluginloader) required
 
+This plugin is provided as is. No support or help.
+
 ---
 
 **Author**: LEaN
