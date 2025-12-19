@@ -2,6 +2,9 @@
 
 A plugin to show correct pannels in dropscotch event.
 
+## Feature
+![Dropscotch Example](./image.png)
+
 ## 📋 Dev Prerequisites
 
 - **Windows 10 SDK** (10.0.19041.0 or later)
